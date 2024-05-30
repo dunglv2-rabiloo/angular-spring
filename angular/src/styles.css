@@ -3,11 +3,11 @@
   --green-300: #48cab2;
   --green-200: #4ad3ba;
   --green-alpha-100: #48cab209;
-  --grey-100: #eaeaea;
-  --grey-200: #dddddd;
+  --grey-100: #f8fafb;
+  --grey-200: #eaeaea;
   --black-500: #3c3c3c;
   --black-400: #4e4e4e;
-  --default-radius: 0px;
+  --black-200: #aeaeae;
 }
 
 body {
@@ -72,6 +72,6 @@ hr {
   display: block;
   width: 80%;
   height: 1px;
-  background-color: var(--grey-100);
+  background-color: var(--grey-200);
   border: none;
 }

@@ -1,1 +1,35 @@
-<p>expenses works!</p>
+<div class="toolbar">
+  <h2 class="left">My Expense</h2>
+  <div class="right">
+    <button class="toggle-filter">
+      <ng-icon name="tablerFilter" size="1.5rem"></ng-icon>
+    </button>
+    <a class="btn new-expense" href="/expenses/new">
+      <ng-icon name="tablerPlus"></ng-icon>
+      <span>New Expense</span>
+    </a>
+  </div>
+</div>
+<div>
+  <table class="expenses-table">
+    <thead>
+      <tr>
+        <th class="subject">Subject</th>
+        <th class="cate">Category</th>
+        <th class="source">Source</th>
+        <th class="date">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (expense of expenses; track expense.id) {
+      <tr>
+        <td class="subject">{{ expense.subject }}</td>
+        <td class="cate">{{ expense.category }}</td>
+        <td class="source">{{ expense.source }}</td>
+        <td class="date">{{ expense.date | date : "medium" }}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  <app-pagination></app-pagination>
+</div>

@@ -1,0 +1,25 @@
+ul.pagination {
+  display: flex;
+  gap: 1rem;
+  list-style-type: none;
+  margin: 1rem 0;
+  padding: 0;
+}
+.page {
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  text-align: center;
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+.page.active {
+  background-color: var(--green-300);
+  color: white;
+}
+.page:not(.active):hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: var(--green-300);
+}

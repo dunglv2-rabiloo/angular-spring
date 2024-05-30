@@ -1,0 +1,13 @@
+<ul class="pagination">
+  @for (page of visiblePages; track page) {
+  <li>
+    <a
+      (click)="selectPage(page)"
+      [routerLink]="[]"
+      [queryParams]="{ page: page }"
+      [class]="{ page: true, active: page === currentPage }"
+      >{{ page }}</a
+    >
+  </li>
+  }
+</ul>

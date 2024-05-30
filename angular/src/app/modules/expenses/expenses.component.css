@@ -1,0 +1,52 @@
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.toolbar .right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+button.toggle-filter {
+  background-color: var(--grey-100);
+  padding: 8px 11px;
+}
+.btn.new-expense {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.expenses-table {
+  width: 100%;
+  margin-top: 30px;
+}
+.expenses-table th {
+  color: var(--black-200);
+}
+.expenses-table th,
+.expenses-table td {
+  padding: 1rem 0;
+}
+.expenses-table td:not(:first-child) {
+  padding-left: 1rem;
+}
+.expenses-table td:not(:last-child) {
+  padding-right: 1rem;
+}
+.expenses-table .subject {
+  width: 40%;
+  text-align: left;
+}
+.expenses-table .cate {
+  width: 20%;
+  text-align: center;
+}
+.expenses-table .source {
+  width: 20%;
+  text-align: center;
+}
+.expenses-table .date {
+  text-align: right;
+}
