@@ -1,0 +1,19 @@
+<form class="form" [formGroup]="formGroup" (ngSubmit)="handleSignin()">
+  <h2>Sign in</h2>
+  <div class="field">
+    <label for="username">Username</label>
+    <input id="username" type="email" formControlName="username" />
+  </div>
+  <div class="field">
+    <label for="password">Password</label>
+    <input id="password" type="password" formControlName="password" />
+  </div>
+  <div class="actions">
+    <button type="submit" [disabled]="submitting">
+      {{ submitting ? "Signing in..." : "Sign In" }}
+    </button>
+  </div>
+  <hr />
+  <p>Not registered yet?</p>
+  <a class="btn secondary sign-up" routerLink="/signup">Sign up</a>
+</form>
