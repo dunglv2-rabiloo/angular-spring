@@ -1,1 +1,12 @@
-<p>nav works!</p>
+<nav>
+  <ul>
+    @for (item of items; track $index) {
+    <a class="item" [routerLink]="item.path" routerLinkActive="active">
+      <li>
+        <ng-icon [svg]="item.icon" size="1.5rem"></ng-icon>
+        <span>{{ item.label }}</span>
+      </li>
+    </a>
+    }
+  </ul>
+</nav>

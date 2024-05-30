@@ -2,11 +2,17 @@
 :root {
   --green-300: #48cab2;
   --green-200: #4ad3ba;
+  --green-alpha-100: #48cab209;
   --grey-100: #eaeaea;
   --grey-200: #dddddd;
   --black-500: #3c3c3c;
   --black-400: #4e4e4e;
   --default-radius: 0px;
+}
+
+body {
+  padding: 0;
+  margin: 0;
 }
 
 * {

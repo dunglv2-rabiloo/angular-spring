@@ -1,0 +1,16 @@
+:host {
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  display: grid;
+  grid-template-columns: min-content auto;
+  grid-template-rows: min-content 1fr;
+}
+
+header {
+  grid-column: 2 span;
+}
+
+main {
+  padding: 1rem 2rem;
+}
