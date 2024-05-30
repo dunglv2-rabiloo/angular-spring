@@ -9,11 +9,11 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
   styleUrl: './pagination.component.css',
 })
 export class PaginationComponent {
-  currentPage = 1;
+  currentPage: number;
   visiblePages = [1, 10, 11, 12, 50];
 
   constructor(router: ActivatedRoute) {
-    this.currentPage = Number(router.snapshot.queryParamMap.get('page'));
+    this.currentPage = Number(router.snapshot.queryParamMap.get('page') || 1);
   }
 
   selectPage(page: number) {

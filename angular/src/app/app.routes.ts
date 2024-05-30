@@ -3,6 +3,7 @@ import { SigninComponent } from './modules/signin/signin.component';
 import { LayoutComponent } from './modules/layout/layout.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { ExpensesComponent } from './modules/expenses/expenses.component';
+import { NewExpenseComponent } from './modules/expenses/new-expense/new-expense.component';
 
 export const routes: Routes = [
   {
@@ -24,7 +25,16 @@ export const routes: Routes = [
       },
       {
         path: 'expenses',
-        component: ExpensesComponent,
+        children: [
+          {
+            path: '',
+            component: ExpensesComponent,
+          },
+          {
+            path: 'new',
+            component: NewExpenseComponent,
+          },
+        ],
       },
     ],
   },
