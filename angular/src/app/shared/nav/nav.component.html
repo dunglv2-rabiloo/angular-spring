@@ -1,12 +1,27 @@
+<div class="profile">
+  <div class="avatar">
+    <img
+      src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"
+    />
+  </div>
+  <h2 class="welcome">Hi, dunglv</h2>
+</div>
 <nav>
   <ul>
-    @for (item of items; track $index) {
+    @for (item of items; track $index) { @if (item.path) {
     <a class="item" [routerLink]="item.path" routerLinkActive="active">
       <li>
         <ng-icon [svg]="item.icon" size="1.5rem"></ng-icon>
         <span>{{ item.label }}</span>
       </li>
     </a>
-    }
+    } @else if (item.action) {
+    <button class="item" (click)="item.action()">
+      <li>
+        <ng-icon [svg]="item.icon" size="1.5rem"></ng-icon>
+        <span>{{ item.label }}</span>
+      </li>
+    </button>
+    } }
   </ul>
 </nav>

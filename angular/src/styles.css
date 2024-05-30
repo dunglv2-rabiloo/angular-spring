@@ -20,18 +20,21 @@ body {
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-button,
-.btn {
-  font-size: 1rem;
-  background-color: var(--green-300);
+button {
+  background-color: transparent;
   border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+button.primary,
+.btn {
+  background-color: var(--green-300);
   color: white;
   padding: 13px 25px;
-  cursor: pointer;
   text-align: center;
   text-decoration: none;
 }
-button:hover,
+button.primary:hover,
 .btn:hover {
   background-color: var(--green-200);
 }
