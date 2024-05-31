@@ -55,17 +55,26 @@ button.secondary:hover,
 input {
   font-size: 1rem;
 }
-input[type="text"],
-input[type="email"],
-input[type="password"] {
+input:not([type="radio"]):not([type="checkbox"]),
+textarea,
+select {
   padding: 12px;
   border: solid 1px var(--grey-100);
+  background-color: transparent;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 1rem;
 }
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus {
-  border-color: var(--green-300);
+input:not([type="radio"]):not([type="checkbox"]):focus,
+textarea:focus,
+select:focus {
   outline-color: var(--green-300);
+}
+textarea {
+  resize: vertical;
+  min-height: 100px;
+  max-height: 250px;
 }
 
 hr {
@@ -74,4 +83,9 @@ hr {
   height: 1px;
   background-color: var(--grey-200);
   border: none;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 5px;
 }

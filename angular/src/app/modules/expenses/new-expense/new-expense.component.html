@@ -1,1 +1,35 @@
-<p>new-expense works!</p>
+<div class="nav">
+  <a class="btn back" [routerLink]="['..']">
+    <ng-icon name="tablerChevronLeft"></ng-icon>
+  </a>
+</div>
+<h2 class="heading">New Expense</h2>
+<form class="expense-form">
+  <div class="field">
+    <label for="subject">Subject</label>
+    <input id="subject" type="text" />
+  </div>
+  <div class="field half">
+    <label for="amount">Amount</label>
+    <input id="amount" type="number" />
+  </div>
+  <div class="field half">
+    <label for="date">Date</label>
+    <input id="date" type="date" />
+  </div>
+  <div class="field">
+    <label for="description">Description</label>
+    <textarea id="description"></textarea>
+  </div>
+  <div class="field">
+    <label for="category">Category</label>
+    <select id="category">
+      <option value="food">Food</option>
+      <option value="food">Transport</option>
+      <option value="food">Heath</option>
+    </select>
+  </div>
+  <div class="actions">
+    <button class="primary" type="submit">Save</button>
+  </div>
+</form>
