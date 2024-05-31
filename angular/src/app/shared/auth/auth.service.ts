@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 
 interface User {
-  username: string;
+  displayName: string;
 }
 
 interface AuthRespose {
@@ -17,15 +18,17 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  signIn(username: string, password: string) {
-    this.http
-      .post<AuthRespose>('/api/auth/login', {
+  async signIn(username: string, password: string) {
+    const resp = await firstValueFrom(
+      this.http.post<AuthRespose>('/api/auth/login', {
         username,
         password,
       })
-      .subscribe((resp) => {
-        console.log(resp.displayName);
-      });
+    );
+
+    this.user = {
+      displayName: resp.displayName,
+    };
   }
 
   async signOut() {

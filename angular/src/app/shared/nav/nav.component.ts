@@ -28,6 +28,7 @@ export class NavComponent {
   private router = inject(Router);
   private authService = inject(AuthService);
 
+  displayName = '';
   items: NavItem[] = [
     {
       icon: tablerGraph,
@@ -58,4 +59,8 @@ export class NavComponent {
       },
     },
   ];
+
+  constructor(authService: AuthService) {
+    this.displayName = authService.user?.displayName || '';
+  }
 }
