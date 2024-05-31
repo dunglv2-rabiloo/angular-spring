@@ -32,7 +32,7 @@ export class AuthService {
   }
 
   async signOut() {
-    console.log('ok');
+    await firstValueFrom(this.http.post('/api/auth/logout', {}));
     this.user = null;
   }
 }

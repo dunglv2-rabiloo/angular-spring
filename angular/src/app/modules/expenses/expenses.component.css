@@ -43,10 +43,10 @@ button.toggle-filter {
   width: 20%;
   text-align: center;
 }
-.expenses-table .source {
+.expenses-table .amount {
   width: 20%;
-  text-align: center;
+  text-align: right;
 }
 .expenses-table .date {
-  text-align: right;
+  text-align: center;
 }

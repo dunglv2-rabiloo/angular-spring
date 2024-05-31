@@ -2,11 +2,10 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { NgIconComponent } from '@ng-icons/core';
 import {
-  tablerCash,
-  tablerClipboardData,
   tablerGraph,
-  tablerPremiumRights,
   tablerLogout2,
+  tablerPremiumRights,
+  tablerWallet,
 } from '@ng-icons/tabler-icons';
 import { AuthService } from '../auth/auth.service';
 
@@ -36,25 +35,20 @@ export class NavComponent {
       label: 'Dashboard',
     },
     {
-      icon: tablerCash,
+      icon: tablerPremiumRights,
       path: '/expenses',
       label: 'Expenses',
     },
     {
-      icon: tablerPremiumRights,
-      path: '/incomes',
-      label: 'Incomes',
-    },
-    {
-      icon: tablerClipboardData,
-      path: '/reports',
-      label: 'Reports',
+      icon: tablerWallet,
+      path: '/sources',
+      label: 'Sources',
     },
     {
       icon: tablerLogout2,
       label: 'Sign out',
-      action: () => {
-        this.authService.signOut();
+      action: async () => {
+        await this.authService.signOut();
         this.router.navigate(['/signin']);
       },
     },

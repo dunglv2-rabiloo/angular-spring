@@ -4,29 +4,33 @@
   </a>
 </div>
 <h2 class="heading">New Expense</h2>
-<form class="expense-form">
+<form
+  class="expense-form"
+  [formGroup]="expenseForm"
+  (ngSubmit)="handleSubmit()"
+>
   <div class="field">
     <label for="subject">Subject</label>
-    <input id="subject" type="text" />
+    <input id="subject" type="text" formControlName="subject" />
   </div>
   <div class="field half">
     <label for="amount">Amount</label>
-    <input id="amount" type="number" />
+    <input id="amount" type="number" formControlName="amount" />
   </div>
   <div class="field half">
     <label for="date">Date</label>
-    <input id="date" type="date" />
+    <input id="date" type="datetime-local" formControlName="date" />
   </div>
   <div class="field">
     <label for="description">Description</label>
-    <textarea id="description"></textarea>
+    <textarea id="description" formControlName="description"></textarea>
   </div>
   <div class="field">
     <label for="category">Category</label>
-    <select id="category">
-      <option value="food">Food</option>
-      <option value="food">Transport</option>
-      <option value="food">Heath</option>
+    <select id="category" formControlName="category">
+      @for (category of categories; track category.code) {
+      <option [value]="category.code">{{ category.label }}</option>
+      }
     </select>
   </div>
   <div class="actions">

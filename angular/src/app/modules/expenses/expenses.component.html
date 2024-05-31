@@ -16,8 +16,8 @@
       <tr>
         <th class="subject">Subject</th>
         <th class="cate">Category</th>
-        <th class="source">Source</th>
         <th class="date">Date</th>
+        <th class="amount">Amount</th>
       </tr>
     </thead>
     <tbody>
@@ -25,8 +25,8 @@
       <tr>
         <td class="subject">{{ expense.subject }}</td>
         <td class="cate">{{ expense.category }}</td>
-        <td class="source">{{ expense.source }}</td>
         <td class="date">{{ expense.date | date : "medium" }}</td>
+        <td class="amount">{{ expense.amount | currency : "USD" }}</td>
       </tr>
       }
     </tbody>

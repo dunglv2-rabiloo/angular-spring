@@ -25,13 +25,27 @@ public class AuthController {
     @PreAuthorize("isAnonymous()")
     public AuthRespDTO login(@RequestBody CredentialDTO credential, HttpServletResponse response) {
         AuthRespDTO authRespDTO = authService.login(credential);
-
-        Cookie cookie = new Cookie(SecurityConfig.ACCESS_TOKEN_COOKIE, authRespDTO.getAccessToken());
-        cookie.setPath("/");
-        cookie.setMaxAge((int) SecurityConfig.ACCESS_TOKEN_LIFETIME.toSeconds());
-        cookie.setHttpOnly(true);
+        Cookie cookie = makeAuthCookie(
+            authRespDTO.getAccessToken(),
+            (int) SecurityConfig.ACCESS_TOKEN_LIFETIME.toSeconds()
+        );
         response.addCookie(cookie);
 
         return authRespDTO;
+    }
+
+    @PostMapping("/logout")
+    @PreAuthorize("isAuthenticated()")
+    public void logout(HttpServletResponse response) {
+        response.addCookie(makeAuthCookie(null, 0));
+    }
+
+    private Cookie makeAuthCookie(String value, int age) {
+        Cookie cookie = new Cookie(SecurityConfig.ACCESS_TOKEN_COOKIE, value);
+        cookie.setPath("/");
+        cookie.setMaxAge(age);
+        cookie.setHttpOnly(true);
+
+        return cookie;
     }
 }
