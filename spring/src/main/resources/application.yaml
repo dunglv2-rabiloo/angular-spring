@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/angular_spring?createDatabaseIfNotExist=true
+    username: root
+    password: root
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+auth:
+  jwt:
+    secret: mLSNEqWjeH4EatkiaITzpElnoDqt7BU6uqjKcKlpAPBOqFVcbrsRhFTC6O2EVOZx

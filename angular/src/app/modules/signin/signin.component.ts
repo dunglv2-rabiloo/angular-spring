@@ -32,11 +32,11 @@ export class SigninComponent {
 
     try {
       this.submitting = true;
-      await this.authService.signIn(
+      this.authService.signIn(
         this.formGroup.value.username || '',
         this.formGroup.value.password || ''
       );
-      this.router.navigate(['/']);
+      // this.router.navigate(['/']);
     } catch (e) {
       console.error(e);
     } finally {

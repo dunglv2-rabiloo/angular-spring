@@ -1,7 +1,12 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 interface User {
   username: string;
+}
+
+interface AuthRespose {
+  displayName: string;
 }
 
 @Injectable({
@@ -10,15 +15,17 @@ interface User {
 export class AuthService {
   user: User | null = null;
 
-  async signIn(username: string, password: string) {
-    return new Promise((resolve, _) => {
-      setTimeout(() => {
-        this.user = {
-          username,
-        };
-        resolve('ok');
-      }, 1000);
-    });
+  constructor(private http: HttpClient) {}
+
+  signIn(username: string, password: string) {
+    this.http
+      .post<AuthRespose>('/api/auth/login', {
+        username,
+        password,
+      })
+      .subscribe((resp) => {
+        console.log(resp.displayName);
+      });
   }
 
   async signOut() {
