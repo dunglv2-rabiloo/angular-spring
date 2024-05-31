@@ -26,7 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
     public static final String ACCESS_TOKEN_COOKIE = "accessToken";
-    public static final Duration ACCESS_TOKEN_LIFETIME = Duration.ofMinutes(30);
+    public static final Duration ACCESS_TOKEN_LIFETIME = Duration.ofMinutes(60);
 
     private final JwtFilter jwtFilter;
 

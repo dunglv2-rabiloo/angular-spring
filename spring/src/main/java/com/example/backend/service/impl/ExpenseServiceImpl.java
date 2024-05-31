@@ -7,6 +7,7 @@ import com.example.backend.entity.Expense;
 import com.example.backend.entity.Expense_;
 import com.example.backend.entity.User;
 import com.example.backend.helper.AuthHelper;
+import com.example.backend.model.Page;
 import com.example.backend.model.Pagination;
 import com.example.backend.repository.CategoryRepository;
 import com.example.backend.repository.ExpenseRepository;
@@ -43,16 +44,16 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public List<ExpenseDTO> getAllMyExpenses(Pagination pagination) {
+    public Page<ExpenseDTO> getAllMyExpenses(Pagination pagination) {
         User user = authHelper.getSignedUser();
         Sort sort = Sort.by(Sort.Direction.DESC, Expense_.DATE);
         Pageable pageable = PageRequest.ofSize(pagination.getSize())
             .withPage(pagination.getPage())
             .withSort(sort);
 
-        return expenseRepository.findAllByUser(user, pageable)
-            .stream()
-            .map(ExpenseDTO::new)
-            .toList();
+        var page = expenseRepository.findAllByUser(user, pageable);
+
+        return Page.items(page.stream().map(ExpenseDTO::new).toList())
+            .totalPages(page.getTotalPages());
     }
 }

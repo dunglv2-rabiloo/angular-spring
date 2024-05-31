@@ -31,5 +31,8 @@
       }
     </tbody>
   </table>
-  <app-pagination></app-pagination>
+  <app-pagination
+    (onSelectPage)="fetchExpenses($event)"
+    [totalPages]="totalPages"
+  ></app-pagination>
 </div>

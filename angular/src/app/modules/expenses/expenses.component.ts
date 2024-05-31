@@ -21,13 +21,14 @@ import { Expense, ExpenseService } from './expenses.service';
   viewProviders: [provideIcons({ tablerPlus, tablerFilter })],
 })
 export class ExpensesComponent {
+  totalPages: number = 10;
   expenses: Expense[] = [];
 
-  constructor(private expenseService: ExpenseService) {
-    this.fetchExpenses();
-  }
+  constructor(private expenseService: ExpenseService) {}
 
-  async fetchExpenses() {
-    this.expenses = await this.expenseService.getAllExpenses();
+  async fetchExpenses(page: number) {
+    const pageRes = await this.expenseService.getAllExpenses(page);
+    this.totalPages = pageRes.totalPages;
+    this.expenses = pageRes.items;
   }
 }

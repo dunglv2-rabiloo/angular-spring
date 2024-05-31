@@ -10,6 +10,11 @@ interface NewExpense {
   category: string;
 }
 
+export interface Page<T> {
+  totalPages: number;
+  items: T[];
+}
+
 export interface Expense {
   id: number;
   subject: string;
@@ -29,7 +34,13 @@ export class ExpenseService {
     await firstValueFrom(this.http.post('/api/me/expenses', newExpense));
   }
 
-  async getAllExpenses(): Promise<Expense[]> {
-    return await firstValueFrom(this.http.get<Expense[]>('/api/me/expenses'));
+  async getAllExpenses(page: number): Promise<Page<Expense>> {
+    return await firstValueFrom(
+      this.http.get<Page<Expense>>('/api/me/expenses', {
+        params: {
+          page: page - 1,
+        },
+      })
+    );
   }
 }
