@@ -1,6 +1,5 @@
 package com.example.backend.dto;
 
-import com.example.backend.entity.Category;
 import com.example.backend.entity.Expense;
 import lombok.Getter;
 

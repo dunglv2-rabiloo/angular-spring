@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.dto.ExpenseDTO;
 import com.example.backend.dto.NewExpenseDTO;
+import com.example.backend.model.ExpenseFilter;
 import com.example.backend.model.Page;
 import com.example.backend.model.Pagination;
 import com.example.backend.service.ExpenseService;
@@ -22,8 +23,8 @@ public class ExpenseController {
     }
 
     @GetMapping
-    public Page<ExpenseDTO> getAllMyExpenses(Pagination pagination) {
-        return expenseService.getAllMyExpenses(pagination);
+    public Page<ExpenseDTO> getAllMyExpenses(ExpenseFilter filter, Pagination pagination) {
+        return expenseService.getAllMyExpenses(filter, pagination);
     }
 
     @DeleteMapping("/{id}")

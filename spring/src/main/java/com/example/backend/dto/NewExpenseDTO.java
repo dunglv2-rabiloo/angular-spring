@@ -1,7 +1,6 @@
 package com.example.backend.dto;
 
 import com.example.backend.entity.Expense;
-import jakarta.validation.constraints.Negative;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
