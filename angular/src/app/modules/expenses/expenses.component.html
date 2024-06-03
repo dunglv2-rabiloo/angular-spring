@@ -1,7 +1,7 @@
 <div class="toolbar">
   <h2 class="left">My Expense</h2>
   <div class="right">
-    <button class="toggle-filter">
+    <button class="toggle-filter" (click)="toggleFilter()">
       <ng-icon name="tablerFilter" size="1.5rem"></ng-icon>
     </button>
     <a class="btn new-expense" [routerLink]="['new']">
@@ -10,7 +10,23 @@
     </a>
   </div>
 </div>
-<!-- @if (!expenses.length) { -->
+
+<form *ngIf="isFilterExpanded" class="expense-filter">
+  <div class="field">
+    <label for="keyword">Keyword</label>
+    <input id="keyword" type="text" />
+  </div>
+  <div class="field">
+    <label for="from">From</label>
+    <input id="from" type="date" />
+  </div>
+  <div class="field">
+    <label for="to">To</label>
+    <input id="to" type="date" />
+  </div>
+</form>
+
+<!-- @if (expenses.length > 0) { -->
 <div>
   <table class="expenses-table">
     <thead>

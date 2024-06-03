@@ -24,18 +24,29 @@ import { Expense, ExpenseService } from './expenses.service';
 export class ExpensesComponent {
   totalPages: number = 10;
   expenses: Expense[] = [];
+  isFilterExpanded = true;
+  filter: {
+    keyword?: string;
+    from?: Date;
+    to?: Date;
+    categories?: string[];
+  } = {};
 
   constructor(
     private expenseService: ExpenseService,
     private router: ActivatedRoute
   ) {}
 
+  toggleFilter() {
+    this.isFilterExpanded = !this.isFilterExpanded;
+  }
+
   async fetchExpenses(page: number) {
     const pageRes = await this.expenseService.getAllExpenses(page);
     this.totalPages = pageRes.totalPages;
     this.expenses = pageRes.items;
 
-    console.log(this.expenses);
+    console.log(this.expenses.length);
   }
 
   async deleteExpense(id: number) {
