@@ -8,13 +8,18 @@ interface ExpenseCategoryDistribution {
   totalAmount: number;
 }
 
+interface ExpenseDayTotals {
+  date: string;
+  totalAmount: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class DashboardService {
   constructor(private http: HttpClient) {}
 
-  async fetchExpenseReport(from: string, to: string) {
+  async fetchCategoryDistributionReport(from: string, to: string) {
     return await firstValueFrom(
       this.http.get<ExpenseCategoryDistribution[]>(
         '/api/me/reports/expenses/distribution',
@@ -25,6 +30,12 @@ export class DashboardService {
           },
         }
       )
+    );
+  }
+
+  async fetchDayTotalsReport() {
+    return await firstValueFrom(
+      this.http.get<ExpenseDayTotals[]>('/api/me/reports/expenses/day_totals')
     );
   }
 }

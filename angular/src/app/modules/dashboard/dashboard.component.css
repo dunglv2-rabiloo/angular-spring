@@ -1,10 +1,28 @@
-.toolbar {
+:host {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: 380px;
+  gap: 2rem;
+}
+
+.last-10-day-totals-chart-ctn {
+  height: 100%;
+}
+
+.category-distributions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.date-range-selector {
   display: flex;
   align-items: center;
   gap: 1rem;
-  justify-content: flex-end;
+  margin-bottom: 1rem;
 }
-.toolbar input {
+.date-range-selector input {
   width: initial;
 }
 

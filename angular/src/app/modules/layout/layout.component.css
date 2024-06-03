@@ -1,11 +1,13 @@
 :host {
   width: 100vw;
   height: 100vh;
-  overflow: auto;
+  overflow: hidden;
   display: flex;
 }
 
 main {
   padding: 3rem;
   flex-grow: 1;
+  height: 100vh;
+  overflow: scroll;
 }

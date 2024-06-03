@@ -16,19 +16,35 @@ export class DashboardComponent implements OnInit {
   from = new Date().toISOString().slice(0, 10);
   to = new Date().toISOString().slice(0, 10);
   distributionChartData?: ChartData;
+  dayTotalsChartData?: ChartData;
 
   constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
-    this.fetchReport();
+    this.fetchCategoryDistributionReport();
+    this.fetchDayTotalsReport();
   }
 
-  async fetchReport() {
-    const distributions = await this.dashboardService.fetchExpenseReport(
-      this.from,
-      this.to
-    );
+  async fetchDayTotalsReport() {
+    const daysTotals = await this.dashboardService.fetchDayTotalsReport();
+    this.dayTotalsChartData = {
+      labels: daysTotals.map((date) => date.date),
+      datasets: [
+        {
+          label: 'Expense amount',
+          backgroundColor: '#48cab2a0',
+          data: daysTotals.map((date) => date.totalAmount),
+        },
+      ],
+    };
+  }
 
+  async fetchCategoryDistributionReport() {
+    const distributions =
+      await this.dashboardService.fetchCategoryDistributionReport(
+        this.from,
+        this.to
+      );
     this.distributionChartData = {
       labels: distributions.map((dis) => dis.label),
       datasets: [
