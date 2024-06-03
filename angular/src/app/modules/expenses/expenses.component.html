@@ -10,8 +10,7 @@
     </a>
   </div>
 </div>
-@if (expenses.length) {
-
+<!-- @if (!expenses.length) { -->
 <div>
   <table class="expenses-table">
     <thead>
@@ -44,6 +43,6 @@
     [totalPages]="totalPages"
   ></app-pagination>
 </div>
-} @else {
+<!-- } @else {
 <p class="no-expenses">No expenses found.</p>
-}
+} -->

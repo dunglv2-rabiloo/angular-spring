@@ -34,6 +34,8 @@ export class ExpensesComponent {
     const pageRes = await this.expenseService.getAllExpenses(page);
     this.totalPages = pageRes.totalPages;
     this.expenses = pageRes.items;
+
+    console.log(this.expenses);
   }
 
   async deleteExpense(id: number) {
