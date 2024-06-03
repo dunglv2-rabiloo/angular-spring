@@ -6,6 +6,7 @@ import com.example.backend.entity.Category;
 import com.example.backend.entity.Expense;
 import com.example.backend.entity.Expense_;
 import com.example.backend.entity.User;
+import com.example.backend.exception.ClientVisibleException;
 import com.example.backend.helper.AuthHelper;
 import com.example.backend.model.Page;
 import com.example.backend.model.Pagination;
@@ -55,5 +56,14 @@ public class ExpenseServiceImpl implements ExpenseService {
 
         return Page.items(page.stream().map(ExpenseDTO::new).toList())
             .totalPages(page.getTotalPages());
+    }
+
+    @Override
+    public void deleteMyExpense(Long id) {
+        User user = authHelper.getSignedUser();
+        Expense expense = expenseRepository.findByIdAndUser(id, user)
+            .orElseThrow(() -> new ClientVisibleException("{expense.not_exist}"));
+
+        expenseRepository.delete(expense);
     }
 }

@@ -10,6 +10,8 @@
     </a>
   </div>
 </div>
+@if (expenses.length) {
+
 <div>
   <table class="expenses-table">
     <thead>
@@ -18,6 +20,7 @@
         <th class="cate">Category</th>
         <th class="date">Date</th>
         <th class="amount">Amount</th>
+        <th class="actions">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -27,6 +30,11 @@
         <td class="cate">{{ expense.category }}</td>
         <td class="date">{{ expense.date | date : "medium" }}</td>
         <td class="amount">{{ expense.amount | currency : "USD" }}</td>
+        <td class="actions">
+          <button class="btn-delete" (click)="deleteExpense(expense.id)">
+            <ng-icon name="tablerTrash" size="20"></ng-icon>
+          </button>
+        </td>
       </tr>
       }
     </tbody>
@@ -36,3 +44,6 @@
     [totalPages]="totalPages"
   ></app-pagination>
 </div>
+} @else {
+<p class="no-expenses">No expenses found.</p>
+}

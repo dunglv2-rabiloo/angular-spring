@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 @Setter
 public class Pagination {
     private int page;
-    private final int size = 10;
+    private final int size = 5;
 
     public Pageable toPageable() {
         return Pageable.ofSize(this.size).withPage(this.page);

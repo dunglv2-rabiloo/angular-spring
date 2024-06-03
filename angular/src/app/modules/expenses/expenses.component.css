@@ -29,24 +29,37 @@ button.toggle-filter {
 .expenses-table td {
   padding: 1.5rem 0;
 }
-.expenses-table td:not(:first-child) {
+.expenses-table td:not(:first-child),
+.expenses-table th:not(:first-child) {
   padding-left: 1rem;
 }
-.expenses-table td:not(:last-child) {
+.expenses-table td:not(:last-child),
+.expenses-table th:not(:last-child) {
   padding-right: 1rem;
 }
 .expenses-table .subject {
-  width: 40%;
+  width: 35%;
   text-align: left;
 }
 .expenses-table .cate {
-  width: 20%;
   text-align: center;
 }
 .expenses-table .amount {
-  width: 20%;
   text-align: right;
 }
 .expenses-table .date {
   text-align: center;
+}
+.expenses-table td.actions {
+  text-align: center;
+}
+
+.btn-delete:hover {
+  color: crimson;
+}
+
+.no-expenses {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 20px;
 }

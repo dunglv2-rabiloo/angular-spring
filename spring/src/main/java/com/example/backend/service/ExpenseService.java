@@ -11,4 +11,5 @@ import java.util.List;
 public interface ExpenseService {
     void addExpense(@Valid NewExpenseDTO newExpense);
     Page<ExpenseDTO> getAllMyExpenses(Pagination pagination);
+    void deleteMyExpense(Long id);
 }

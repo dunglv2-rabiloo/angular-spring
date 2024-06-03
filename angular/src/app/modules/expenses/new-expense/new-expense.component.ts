@@ -5,7 +5,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { tablerChevronLeft } from '@ng-icons/tabler-icons';
 import { Category, CategoryService } from '../../categories/categories.service';
@@ -31,7 +31,8 @@ export class NewExpenseComponent {
 
   constructor(
     private cateService: CategoryService,
-    private expenseService: ExpenseService
+    private expenseService: ExpenseService,
+    private router: Router
   ) {
     this.fetchCategories();
   }
@@ -41,7 +42,7 @@ export class NewExpenseComponent {
     this.expenseForm.controls.category.setValue(this.categories[0].code);
   }
 
-  handleSubmit() {
+  async handleSubmit() {
     if (this.expenseForm.invalid) {
       throw new Error('Invalid form data');
     }
@@ -49,12 +50,14 @@ export class NewExpenseComponent {
     const { subject, amount, date, category, description } =
       this.expenseForm.value;
 
-    this.expenseService.addExpense({
+    await this.expenseService.addExpense({
       subject: subject || '',
       amount: Number(amount),
       date: new Date(date || ''),
       category: category || '',
       description: description,
     });
+
+    this.router.navigate(['/expenses']);
   }
 }

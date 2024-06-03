@@ -43,4 +43,8 @@ export class ExpenseService {
       })
     );
   }
+
+  async deleteExpense(id: number) {
+    return await firstValueFrom(this.http.delete(`/api/me/expenses/${id}`));
+  }
 }
