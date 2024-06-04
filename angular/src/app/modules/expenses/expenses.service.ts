@@ -34,12 +34,7 @@ export class ExpenseService {
   constructor(private http: HttpClient) {}
 
   async addExpense(newExpense: Expense) {
-    await firstValueFrom(
-      this.http.post('/api/me/expenses', {
-        ...newExpense,
-        date: newExpense.date.getTime(),
-      })
-    );
+    await firstValueFrom(this.http.post('/api/me/expenses', newExpense));
   }
 
   async updateExpense(expense: Expense) {

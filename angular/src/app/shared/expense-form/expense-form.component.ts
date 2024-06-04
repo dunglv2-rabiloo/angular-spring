@@ -23,6 +23,7 @@ import {
   Expense,
   PersistedExpense,
 } from '../../modules/expenses/expenses.service';
+import moment from 'moment';
 
 @Component({
   selector: 'app-expense-form',
@@ -53,10 +54,12 @@ export class ExpenseFormComponent implements OnChanges {
     if (changes['expense']?.currentValue) {
       const expense = changes['expense'].currentValue as PersistedExpense;
 
+      console.log(expense);
+
       this.expenseForm.patchValue({
         subject: expense.subject,
         amount: expense.amount.toString(),
-        date: expense.date.toString(),
+        date: moment(expense.date).format('YYYY-MM-DDTHH:mm'),
         description: expense.description,
         category: expense.category,
       });

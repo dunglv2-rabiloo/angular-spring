@@ -64,7 +64,7 @@
       <tr>
         <td class="subject">{{ expense.subject }}</td>
         <td class="cate">{{ expense.category }}</td>
-        <td class="date">{{ expense.date | date : "medium" : "GMT+7" }}</td>
+        <td class="date">{{ expense.date | date : "medium" }}</td>
         <td class="amount">{{ expense.amount | currency : "USD" }}</td>
         <td class="actions">
           <a [routerLink]="[expense.id]" class="btn-edit">
