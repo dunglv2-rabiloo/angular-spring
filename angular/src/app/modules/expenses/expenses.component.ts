@@ -103,8 +103,6 @@ export class ExpensesComponent implements OnInit {
       delete criteria.categories;
     }
 
-    console.log(criteria.categories);
-
     this.router.navigate([], { queryParams: criteria });
     this.filter = criteria;
     await this.fetchExpenses();

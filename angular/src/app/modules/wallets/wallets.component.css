@@ -1,0 +1,52 @@
+.wallets {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.item__wallet,
+.add-wallet {
+  box-shadow: 2px 2px 7px -2px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  cursor: pointer;
+  position: relative;
+}
+.item__wallet .balance {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--black-400);
+}
+.item__wallet .name {
+  color: var(--green-300);
+  margin-bottom: 0;
+  font-size: 1.25rem;
+}
+.item__wallet .icon {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  color: var(--black-300);
+}
+.item__wallet:hover .icon {
+  color: var(--green-300);
+}
+.add-wallet {
+  cursor: default;
+}
+.add-wallet-btn {
+  padding: 1rem;
+}
+.add-wallet,
+.add-wallet-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: var(--green-300);
+}
+.add-wallet-btn:hover {
+  color: var(--black-500);
+}

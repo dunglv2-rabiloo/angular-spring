@@ -2,11 +2,13 @@
 :root {
   --green-300: #48cab2;
   --green-200: #4ad3ba;
+  --green-100: #73f3dc;
   --green-alpha-100: #48cab209;
   --grey-100: #f8fafb;
   --grey-200: #eaeaea;
   --black-500: #3c3c3c;
   --black-400: #4e4e4e;
+  --black-300: #6b6b6b;
   --black-200: #aeaeae;
 }
 

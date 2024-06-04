@@ -1,0 +1,21 @@
+<ul class="wallets">
+  <li
+    class="item__wallet"
+    *ngFor="let wallet of wallets; trackBy: trackByWallet"
+  >
+    <h2 class="name">{{ wallet.name || wallet.accountNumber }}</h2>
+    <p class="bank" *ngIf="wallet.bank">{{ wallet.bank }}</p>
+    <p class="balance">{{ wallet.balance | currency : "USD" }}</p>
+    <ng-icon
+      class="icon"
+      [name]="wallet.bank ? 'tablerCreditCard' : 'tablerWallet'"
+      size="28"
+    ></ng-icon>
+  </li>
+  <div class="add-wallet">
+    <button class="add-wallet-btn">
+      <ng-icon name="tablerPlus" size="28"></ng-icon>
+      Add Wallet
+    </button>
+  </div>
+</ul>

@@ -41,8 +41,8 @@ export class NavComponent {
     },
     {
       icon: tablerWallet,
-      path: '/sources',
-      label: 'Sources',
+      path: '/wallets',
+      label: 'Wallets',
     },
     {
       icon: tablerLogout2,

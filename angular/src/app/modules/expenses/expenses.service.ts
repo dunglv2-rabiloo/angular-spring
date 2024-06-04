@@ -38,7 +38,6 @@ export class ExpenseService {
   }
 
   async updateExpense(expense: Expense) {
-    console.log(expense);
     await firstValueFrom(
       this.http.put(`/api/me/expenses/${expense.id}`, expense)
     );
