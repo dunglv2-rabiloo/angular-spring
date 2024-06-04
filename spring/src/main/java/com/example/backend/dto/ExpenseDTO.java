@@ -8,15 +8,15 @@ import java.time.LocalDateTime;
 
 @Getter
 public class ExpenseDTO {
-    private final Long id;
+    protected Long id;
 
-    private final String subject;
+    protected String subject;
 
-    private final BigDecimal amount;
+    protected BigDecimal amount;
 
-    private final LocalDateTime date;
+    protected LocalDateTime date;
 
-    private final String category;
+    protected String category;
 
     public ExpenseDTO(Expense expense) {
         this.id = expense.getId();

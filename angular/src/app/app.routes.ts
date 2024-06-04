@@ -4,6 +4,7 @@ import { LayoutComponent } from './modules/layout/layout.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { ExpensesComponent } from './modules/expenses/expenses.component';
 import { NewExpenseComponent } from './modules/expenses/new-expense/new-expense.component';
+import { EditExpenseComponent } from './modules/expenses/edit-expense/edit-expense.component';
 
 export const routes: Routes = [
   {
@@ -33,6 +34,10 @@ export const routes: Routes = [
           {
             path: 'new',
             component: NewExpenseComponent,
+          },
+          {
+            path: ':id',
+            component: EditExpenseComponent,
           },
         ],
       },

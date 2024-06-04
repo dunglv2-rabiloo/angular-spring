@@ -48,7 +48,6 @@
   </div>
 </form>
 
-<!-- @if (expenses.length > 0) { -->
 <div>
   <table class="expenses-table">
     <thead>
@@ -65,9 +64,12 @@
       <tr>
         <td class="subject">{{ expense.subject }}</td>
         <td class="cate">{{ expense.category }}</td>
-        <td class="date">{{ expense.date | date : "medium" }}</td>
+        <td class="date">{{ expense.date | date : "medium" : "GMT+7" }}</td>
         <td class="amount">{{ expense.amount | currency : "USD" }}</td>
         <td class="actions">
+          <a [routerLink]="[expense.id]" class="btn-edit">
+            <ng-icon name="tablerPencil" size="20"></ng-icon>
+          </a>
           <button class="btn-delete" (click)="deleteExpense(expense.id)">
             <ng-icon name="tablerTrash" size="20"></ng-icon>
           </button>
@@ -78,6 +80,3 @@
   </table>
   <app-pagination [totalPages]="totalPages"></app-pagination>
 </div>
-<!-- } @else {
-<p class="no-expenses">No expenses found.</p>
-} -->

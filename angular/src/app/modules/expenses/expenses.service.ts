@@ -2,26 +2,22 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
-interface NewExpense {
-  subject: string;
-  amount: number;
-  date: Date;
-  description?: string | null;
-  category: string;
-}
-
 export interface Page<T> {
   totalPages: number;
   items: T[];
 }
 
 export interface Expense {
-  id: number;
+  id?: number;
   subject: string;
   amount: number;
   date: Date;
   category: string;
   description?: string;
+}
+
+export interface PersistedExpense extends Expense {
+  id: number;
 }
 
 export interface ExpenseFilter {
@@ -37,21 +33,39 @@ export interface ExpenseFilter {
 export class ExpenseService {
   constructor(private http: HttpClient) {}
 
-  async addExpense(newExpense: NewExpense) {
-    await firstValueFrom(this.http.post('/api/me/expenses', newExpense));
+  async addExpense(newExpense: Expense) {
+    await firstValueFrom(
+      this.http.post('/api/me/expenses', {
+        ...newExpense,
+        date: newExpense.date.getTime(),
+      })
+    );
+  }
+
+  async updateExpense(expense: Expense) {
+    console.log(expense);
+    await firstValueFrom(
+      this.http.put(`/api/me/expenses/${expense.id}`, expense)
+    );
   }
 
   async getAllExpenses(
     page: number,
     filter: ExpenseFilter
-  ): Promise<Page<Expense>> {
+  ): Promise<Page<PersistedExpense>> {
     return await firstValueFrom(
-      this.http.get<Page<Expense>>('/api/me/expenses', {
+      this.http.get<Page<PersistedExpense>>('/api/me/expenses', {
         params: {
           page: page - 1,
           ...filter,
         },
       })
+    );
+  }
+
+  async getExpense(id: number) {
+    return await firstValueFrom(
+      this.http.get<PersistedExpense>(`/api/me/expenses/${id}`)
     );
   }
 

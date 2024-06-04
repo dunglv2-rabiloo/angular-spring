@@ -1,0 +1,25 @@
+.btn.back {
+  display: inline-flex;
+  padding: 12px 14px;
+}
+
+.heading {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.expense-form {
+  display: grid;
+  grid-column: 1fr 1fr;
+  gap: 1.25rem;
+}
+.expense-form .field:not(.half),
+.expense-form .actions {
+  grid-column: 2 span;
+}
+.expense-form .actions {
+  margin-top: 1rem;
+}
+.expense-form .actions button {
+  width: 100%;
+}

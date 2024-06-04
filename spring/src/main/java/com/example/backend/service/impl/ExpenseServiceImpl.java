@@ -1,7 +1,9 @@
 package com.example.backend.service.impl;
 
+import com.example.backend.dto.DetailExpenseDTO;
 import com.example.backend.dto.ExpenseDTO;
 import com.example.backend.dto.NewExpenseDTO;
+import com.example.backend.dto.UpdateExpenseDTO;
 import com.example.backend.entity.Category;
 import com.example.backend.entity.Expense;
 import com.example.backend.entity.Expense_;
@@ -64,5 +66,31 @@ public class ExpenseServiceImpl implements ExpenseService {
             .orElseThrow(() -> new ClientVisibleException("{expense.not_exist}"));
 
         expenseRepository.delete(expense);
+    }
+
+    @Override
+    public DetailExpenseDTO getExpense(Long id) {
+        User user = authHelper.getSignedUser();
+        Expense expense = expenseRepository.findByIdAndUser(id, user).orElseThrow();
+
+        return new DetailExpenseDTO(expense);
+    }
+
+    @Override
+    public void updateExpense(@Valid UpdateExpenseDTO updateExpenseDTO) {
+        Expense expense = expenseRepository.findByIdAndUser(updateExpenseDTO.getId(), authHelper.getSignedUser())
+            .orElseThrow();
+        expenseRepository.save(merge(expense, updateExpenseDTO));
+    }
+
+    private Expense merge(Expense expense, UpdateExpenseDTO updateExpenseDTO) {
+        Category category = categoryRepository.findByCode(updateExpenseDTO.getCategory())
+            .orElseThrow();
+        expense.setSubject(updateExpenseDTO.getSubject());
+        expense.setDate(updateExpenseDTO.getDate());
+        expense.setAmount(updateExpenseDTO.getAmount());
+        expense.setDescription(updateExpenseDTO.getDescription());
+        expense.setCategory(category);
+        return expense;
     }
 }

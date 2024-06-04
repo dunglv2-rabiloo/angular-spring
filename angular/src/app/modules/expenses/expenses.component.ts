@@ -2,9 +2,19 @@ import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { tablerFilter, tablerPlus, tablerTrash } from '@ng-icons/tabler-icons';
+import {
+  tablerFilter,
+  tablerPencil,
+  tablerPlus,
+  tablerTrash,
+} from '@ng-icons/tabler-icons';
 import { PaginationComponent } from '../../shared/pagination/pagination.component';
-import { Expense, ExpenseFilter, ExpenseService } from './expenses.service';
+import {
+  Expense,
+  ExpenseFilter,
+  ExpenseService,
+  PersistedExpense,
+} from './expenses.service';
 import { Category, CategoryService } from '../categories/categories.service';
 import {
   FormArray,
@@ -27,12 +37,14 @@ import {
   ],
   templateUrl: './expenses.component.html',
   styleUrl: './expenses.component.css',
-  viewProviders: [provideIcons({ tablerPlus, tablerFilter, tablerTrash })],
+  viewProviders: [
+    provideIcons({ tablerPlus, tablerFilter, tablerTrash, tablerPencil }),
+  ],
 })
 export class ExpensesComponent implements OnInit {
   totalPages: number = 1;
   page: number = 1;
-  expenses: Expense[] = [];
+  expenses: PersistedExpense[] = [];
   allCategories: Category[] = [];
 
   isFilterExpanded = false;
@@ -123,5 +135,6 @@ export class ExpensesComponent implements OnInit {
     );
     this.totalPages = pageRes.totalPages;
     this.expenses = pageRes.items;
+    console.log(this.expenses);
   }
 }

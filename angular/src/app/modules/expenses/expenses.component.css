@@ -54,6 +54,13 @@ button.toggle-filter {
   text-align: center;
 }
 
+.btn-edit {
+  color: inherit;
+  display: inline-block;
+}
+.btn-edit :hover {
+  color: var(--green-300);
+}
 .btn-delete:hover {
   color: crimson;
 }
