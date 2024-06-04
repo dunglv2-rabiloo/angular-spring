@@ -1,10 +1,9 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
-  EventEmitter,
   Input,
   OnChanges,
   OnInit,
-  Output,
   SimpleChanges,
 } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -12,42 +11,40 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 @Component({
   selector: 'app-pagination',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, CommonModule],
   templateUrl: './pagination.component.html',
   styleUrl: './pagination.component.css',
 })
-export class PaginationComponent implements OnChanges, OnInit {
+export class PaginationComponent implements OnInit, OnChanges {
   @Input() totalPages: number = 0;
-  @Output() onSelectPage = new EventEmitter();
-  currentPage: number;
+  currentPage: number = 1;
   visiblePages: number[] = [];
 
-  constructor(router: ActivatedRoute) {
-    this.currentPage = Number(router.snapshot.queryParamMap.get('page') || 1);
-  }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.onSelectPage.emit(this.currentPage);
+    this.currentPage = Number(
+      this.route.snapshot.queryParamMap.get('page') || 1
+    );
+    if (this.currentPage > this.totalPages) {
+      this.currentPage = this.totalPages;
+    }
+    this.updateVisiblePages();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['totalPages']) {
-      if (this.currentPage > this.totalPages) {
-        this.currentPage = this.totalPages;
-      }
-
       this.updateVisiblePages();
     }
   }
 
-  selectPage(page: number) {
-    this.currentPage = page;
-    this.updateVisiblePages();
-    this.onSelectPage.emit(page);
+  buildParams(page: number) {
+    return { ...this.route.snapshot.queryParams, page };
   }
 
   updateVisiblePages() {
-    const visibles = [1];
+    const visibles = [];
+    if (this.totalPages > 0) visibles.push(1);
     if (this.currentPage - 1 > 1) {
       visibles.push(this.currentPage - 1);
     }

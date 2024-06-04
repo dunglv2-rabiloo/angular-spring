@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 public class ExpenseFilter {
     private String keyword;
-    private List<String> categories;
+    private List<String> categories = List.of();
     private LocalDate from;
     private LocalDate to;
     @JsonIgnore
@@ -42,7 +42,6 @@ public class ExpenseFilter {
     }
 
     private Specification<Expense> inCategories() {
-        if (categories == null || categories.isEmpty()) return null;
         return (root, query, cb) -> root.get(Expense_.CATEGORY).get(Category_.CODE).in(categories);
     }
 
@@ -52,7 +51,7 @@ public class ExpenseFilter {
     }
 
     private Specification<Expense> to() {
-        if (from == null) return Specification.where(null);
+        if (to == null) return Specification.where(null);
         return (root, query, cb) -> cb.lessThanOrEqualTo(root.get(Expense_.DATE).as(LocalDate.class), to);
     }
 }

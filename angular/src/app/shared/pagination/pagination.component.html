@@ -1,10 +1,9 @@
-<ul class="pagination">
+<ul *ngIf="visiblePages.length > 0" class="pagination">
   @for (page of visiblePages; track page) {
   <li>
     <a
-      (click)="selectPage(page)"
       [routerLink]="[]"
-      [queryParams]="{ page: page }"
+      [queryParams]="buildParams(page)"
       [class]="{ page: true, active: page === currentPage }"
       >{{ page }}</a
     >

@@ -24,6 +24,13 @@ export interface Expense {
   description?: string;
 }
 
+export interface ExpenseFilter {
+  keyword?: string;
+  from?: string;
+  to?: string;
+  categories?: string[];
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -34,11 +41,15 @@ export class ExpenseService {
     await firstValueFrom(this.http.post('/api/me/expenses', newExpense));
   }
 
-  async getAllExpenses(page: number): Promise<Page<Expense>> {
+  async getAllExpenses(
+    page: number,
+    filter: ExpenseFilter
+  ): Promise<Page<Expense>> {
     return await firstValueFrom(
       this.http.get<Page<Expense>>('/api/me/expenses', {
         params: {
           page: page - 1,
+          ...filter,
         },
       })
     );

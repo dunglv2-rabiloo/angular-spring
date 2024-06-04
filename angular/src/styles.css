@@ -76,6 +76,30 @@ textarea {
   min-height: 100px;
   max-height: 250px;
 }
+input[type="checkbox"] {
+  position: relative;
+  display: none;
+}
+input[type="checkbox"] ~ .checkmark {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  border: solid 1px var(--black-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+input[type="checkbox"] ~ .checkmark::after {
+  content: "";
+  width: 16px;
+  height: 16px;
+}
+input[type="checkbox"]:checked ~ .checkmark {
+  border-color: var(--green-300);
+}
+input[type="checkbox"]:checked ~ .checkmark::after {
+  background-color: var(--green-300);
+}
 
 hr {
   display: block;
@@ -90,5 +114,11 @@ hr {
   margin-bottom: 5px;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

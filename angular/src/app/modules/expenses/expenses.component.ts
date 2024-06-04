@@ -1,10 +1,17 @@
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
-import { Component } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { tablerFilter, tablerPlus, tablerTrash } from '@ng-icons/tabler-icons';
 import { PaginationComponent } from '../../shared/pagination/pagination.component';
-import { Expense, ExpenseService } from './expenses.service';
+import { Expense, ExpenseFilter, ExpenseService } from './expenses.service';
+import { Category, CategoryService } from '../categories/categories.service';
+import {
+  FormArray,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-expenses',
@@ -16,43 +23,105 @@ import { Expense, ExpenseService } from './expenses.service';
     PaginationComponent,
     CurrencyPipe,
     CommonModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './expenses.component.html',
   styleUrl: './expenses.component.css',
   viewProviders: [provideIcons({ tablerPlus, tablerFilter, tablerTrash })],
 })
-export class ExpensesComponent {
-  totalPages: number = 10;
+export class ExpensesComponent implements OnInit {
+  totalPages: number = 1;
+  page: number = 1;
   expenses: Expense[] = [];
-  isFilterExpanded = true;
-  filter: {
-    keyword?: string;
-    from?: Date;
-    to?: Date;
-    categories?: string[];
-  } = {};
+  allCategories: Category[] = [];
+
+  isFilterExpanded = false;
+  filterForm = new FormGroup({
+    keyword: new FormControl(),
+    from: new FormControl(),
+    to: new FormControl(),
+    categories: new FormArray<FormControl>([]),
+  });
+  private filter: ExpenseFilter = {};
 
   constructor(
+    private categoryService: CategoryService,
     private expenseService: ExpenseService,
-    private router: ActivatedRoute
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
+
+  ngOnInit(): void {
+    this.initialize();
+  }
+
+  async deleteExpense(id: number) {
+    await this.expenseService.deleteExpense(id);
+    await this.fetchExpenses();
+  }
 
   toggleFilter() {
     this.isFilterExpanded = !this.isFilterExpanded;
   }
 
-  async fetchExpenses(page: number) {
-    const pageRes = await this.expenseService.getAllExpenses(page);
-    this.totalPages = pageRes.totalPages;
-    this.expenses = pageRes.items;
-
-    console.log(this.expenses.length);
+  async initialize() {
+    await this.fetchCategories();
+    this.bindFilterQuery();
+    this.doFilter();
   }
 
-  async deleteExpense(id: number) {
-    await this.expenseService.deleteExpense(id);
-    await this.fetchExpenses(
-      Number(this.router.snapshot.paramMap.get('page')) || 1
+  async doFilter() {
+    const formValues = this.filterForm.value;
+    const criteria: ExpenseFilter = {
+      ...formValues,
+      categories: [],
+    };
+
+    this.filterForm.controls.categories.controls
+      .map((c) => c.value)
+      .forEach((checked, idx) => {
+        if (checked) criteria.categories?.push(this.allCategories[idx].code);
+      });
+
+    if (!criteria.keyword || !criteria.keyword.trim()) delete criteria.keyword;
+    if (!criteria.from) delete criteria.from;
+    if (!criteria.to) delete criteria.to;
+
+    this.router.navigate([], { queryParams: criteria });
+    this.filter = criteria;
+    await this.fetchExpenses();
+  }
+
+  private bindFilterQuery() {
+    const { keyword, from, to, categories }: ExpenseFilter =
+      this.route.snapshot.queryParams;
+
+    this.filterForm.patchValue({
+      keyword: keyword,
+      from: from,
+      to: to,
+    });
+
+    this.filterForm.controls.categories.controls.forEach((control, idx) => {
+      if (categories && !categories.includes(this.allCategories[idx].code)) {
+        control.setValue(false);
+      }
+    });
+  }
+
+  private async fetchCategories() {
+    this.allCategories = await this.categoryService.getAllCategories();
+    this.allCategories.forEach((_) =>
+      this.filterForm.controls.categories.controls.push(new FormControl(true))
     );
+  }
+
+  private async fetchExpenses() {
+    const pageRes = await this.expenseService.getAllExpenses(
+      this.page,
+      this.filter
+    );
+    this.totalPages = pageRes.totalPages;
+    this.expenses = pageRes.items;
   }
 }

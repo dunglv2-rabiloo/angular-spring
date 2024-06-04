@@ -63,3 +63,30 @@ button.toggle-filter {
   font-weight: bold;
   margin-top: 20px;
 }
+
+.expense-filter {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+.expense-filter label {
+  margin-bottom: 10px;
+}
+.expense-filter .field.categories,
+.expense-filter .actions {
+  grid-column: 3 span;
+}
+.expense-filter .field.categories .list {
+  display: flex;
+  gap: 2rem;
+  margin-top: 5px;
+}
+.expense-filter .field.categories .option {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.expense-filter .actions button {
+  width: 100%;
+}

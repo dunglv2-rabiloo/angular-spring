@@ -11,18 +11,40 @@
   </div>
 </div>
 
-<form *ngIf="isFilterExpanded" class="expense-filter">
+<form
+  *ngIf="isFilterExpanded"
+  [formGroup]="filterForm"
+  (ngSubmit)="doFilter()"
+  class="expense-filter"
+>
   <div class="field">
     <label for="keyword">Keyword</label>
-    <input id="keyword" type="text" />
+    <input id="keyword" type="text" formControlName="keyword" />
   </div>
   <div class="field">
     <label for="from">From</label>
-    <input id="from" type="date" />
+    <input id="from" type="date" formControlName="from" />
   </div>
   <div class="field">
     <label for="to">To</label>
-    <input id="to" type="date" />
+    <input id="to" type="date" formControlName="to" />
+  </div>
+  <div class="field categories">
+    <span>Categories</span>
+    <div class="list" formArrayName="categories">
+      <label class="option" *ngFor="let cate of allCategories; let i = index">
+        <input
+          type="checkbox"
+          [id]="'cate-' + cate.code"
+          [formControlName]="i"
+        />
+        <span class="checkmark"></span>
+        <span>{{ cate.label }}</span>
+      </label>
+    </div>
+  </div>
+  <div class="actions">
+    <button type="submit" class="secondary">Filter</button>
   </div>
 </form>
 
@@ -54,10 +76,7 @@
       }
     </tbody>
   </table>
-  <app-pagination
-    (onSelectPage)="fetchExpenses($event)"
-    [totalPages]="totalPages"
-  ></app-pagination>
+  <app-pagination [totalPages]="totalPages"></app-pagination>
 </div>
 <!-- } @else {
 <p class="no-expenses">No expenses found.</p>
