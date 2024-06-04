@@ -92,12 +92,18 @@ export class ExpensesComponent implements OnInit {
     this.filterForm.controls.categories.controls
       .map((c) => c.value)
       .forEach((checked, idx) => {
+        if (!criteria.categories) criteria.categories = [];
         if (checked) criteria.categories?.push(this.allCategories[idx].code);
       });
 
     if (!criteria.keyword || !criteria.keyword.trim()) delete criteria.keyword;
     if (!criteria.from) delete criteria.from;
     if (!criteria.to) delete criteria.to;
+    if (this.allCategories.length === criteria.categories?.length) {
+      delete criteria.categories;
+    }
+
+    console.log(criteria.categories);
 
     this.router.navigate([], { queryParams: criteria });
     this.filter = criteria;
@@ -135,6 +141,5 @@ export class ExpensesComponent implements OnInit {
     );
     this.totalPages = pageRes.totalPages;
     this.expenses = pageRes.items;
-    console.log(this.expenses);
   }
 }
