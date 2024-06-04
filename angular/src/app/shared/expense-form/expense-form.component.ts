@@ -54,8 +54,6 @@ export class ExpenseFormComponent implements OnChanges {
     if (changes['expense']?.currentValue) {
       const expense = changes['expense'].currentValue as PersistedExpense;
 
-      console.log(expense);
-
       this.expenseForm.patchValue({
         subject: expense.subject,
         amount: expense.amount.toString(),
@@ -63,12 +61,16 @@ export class ExpenseFormComponent implements OnChanges {
         description: expense.description,
         category: expense.category,
       });
+      this.expenseForm.controls.category.setValue(expense.category);
     }
   }
 
   async fetchCategories() {
     this.categories = await this.cateService.getAllCategories();
-    this.expenseForm.controls.category.setValue(this.categories[0].code);
+
+    if (!this.expenseForm.controls.category.value) {
+      this.expenseForm.controls.category.setValue(this.categories[0].code);
+    }
   }
 
   async handleSubmit() {
@@ -78,8 +80,6 @@ export class ExpenseFormComponent implements OnChanges {
 
     const { subject, amount, date, category, description } =
       this.expenseForm.value;
-
-    console.log(date);
 
     this.save.emit({
       id: this.expense?.id,
