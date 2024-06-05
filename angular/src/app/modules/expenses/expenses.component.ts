@@ -43,7 +43,6 @@ import {
 })
 export class ExpensesComponent implements OnInit {
   totalPages: number = 1;
-  page: number = 1;
   expenses: PersistedExpense[] = [];
   allCategories: Category[] = [];
 
@@ -74,6 +73,10 @@ export class ExpensesComponent implements OnInit {
 
   toggleFilter() {
     this.isFilterExpanded = !this.isFilterExpanded;
+  }
+
+  handleSelectPage(page: number) {
+    this.fetchExpenses(page);
   }
 
   async initialize() {
@@ -132,9 +135,9 @@ export class ExpensesComponent implements OnInit {
     );
   }
 
-  private async fetchExpenses() {
+  private async fetchExpenses(page?: number) {
     const pageRes = await this.expenseService.getAllExpenses(
-      this.page,
+      page || this.route.snapshot.queryParams['page'] || 1,
       this.filter
     );
     this.totalPages = pageRes.totalPages;

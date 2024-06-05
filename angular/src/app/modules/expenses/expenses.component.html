@@ -78,5 +78,8 @@
       }
     </tbody>
   </table>
-  <app-pagination [totalPages]="totalPages"></app-pagination>
+  <app-pagination
+    [totalPages]="totalPages"
+    (selectPage)="handleSelectPage($event)"
+  ></app-pagination>
 </div>

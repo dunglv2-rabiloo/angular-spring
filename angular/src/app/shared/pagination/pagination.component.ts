@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -17,6 +19,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 })
 export class PaginationComponent implements OnInit, OnChanges {
   @Input() totalPages: number = 0;
+  @Output() selectPage = new EventEmitter<number>();
   currentPage: number = 1;
   visiblePages: number[] = [];
 
@@ -26,9 +29,6 @@ export class PaginationComponent implements OnInit, OnChanges {
     this.currentPage = Number(
       this.route.snapshot.queryParamMap.get('page') || 1
     );
-    if (this.currentPage > this.totalPages) {
-      this.currentPage = this.totalPages;
-    }
     this.updateVisiblePages();
   }
 
@@ -40,6 +40,11 @@ export class PaginationComponent implements OnInit, OnChanges {
 
   buildParams(page: number) {
     return { ...this.route.snapshot.queryParams, page };
+  }
+
+  handleSelectPage(page: number) {
+    this.currentPage = page;
+    this.selectPage.emit(page);
   }
 
   updateVisiblePages() {

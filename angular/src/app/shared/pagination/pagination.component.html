@@ -5,6 +5,7 @@
       [routerLink]="[]"
       [queryParams]="buildParams(page)"
       [class]="{ page: true, active: page === currentPage }"
+      (click)="handleSelectPage(page)"
       >{{ page }}</a
     >
   </li>
