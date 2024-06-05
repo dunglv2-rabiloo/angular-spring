@@ -19,7 +19,12 @@
   </div>
   <div class="field half">
     <label for="date">Date</label>
-    <input id="date" type="datetime-local" formControlName="date" />
+    <input
+      id="date"
+      type="datetime-local"
+      [max]="today"
+      formControlName="date"
+    />
   </div>
   <div class="field">
     <label for="description">Description</label>

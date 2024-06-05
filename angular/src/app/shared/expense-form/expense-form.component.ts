@@ -37,9 +37,11 @@ export class ExpenseFormComponent implements OnChanges {
   @Input() expense: PersistedExpense | undefined = undefined;
   @Output() save = new EventEmitter<Expense>();
 
+  today = moment().format('YYYY-MM-DDTHH:mm');
+
   expenseForm = new FormGroup({
     subject: new FormControl('', Validators.required),
-    amount: new FormControl('', Validators.required),
+    amount: new FormControl('', [Validators.required, Validators.min(0)]),
     date: new FormControl('', Validators.required),
     category: new FormControl('', Validators.required),
     description: new FormControl(),
