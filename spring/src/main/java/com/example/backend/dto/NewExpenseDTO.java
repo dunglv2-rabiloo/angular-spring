@@ -13,18 +13,18 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class NewExpenseDTO {
-    @NotBlank
+    @NotBlank(message = "{expense.subject.required}")
     private String subject;
 
     private String description;
 
-    @Positive
+    @Positive(message = "{expense.amount.require_positive}")
     private BigDecimal amount;
 
-    @PastOrPresent
+    @PastOrPresent(message = "{expense.date.require_past}")
     private LocalDateTime date;
 
-    @NotBlank
+    @NotBlank(message = "{expense.category.required}")
     private String category;
 
     public Expense toEntity() {

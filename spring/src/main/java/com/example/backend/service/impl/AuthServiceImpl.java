@@ -41,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
                 .avatar(user.getAvatar())
                 .build();
         } catch (BadCredentialsException e) {
-            throw new UnauthenticatedException("Bad Credentials", e);
+            throw new UnauthenticatedException("{auth.credentials.incorrect}");
         }
     }
 
