@@ -15,6 +15,8 @@ public class User {
 
     private String displayName;
 
+    private String avatar;
+
     private String email;
 
     private String password;

@@ -1,10 +1,11 @@
 <div class="profile">
   <div class="avatar">
-    <img
-      src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"
-    />
+    <img [src]="user.avatar" />
+    <div class="overlay" (click)="changeAvatar()">
+      <ng-icon name="tablerCamera" size="1.5rem"></ng-icon>
+    </div>
   </div>
-  <h2 class="welcome">{{ displayName }}</h2>
+  <h2 class="welcome">{{ user.displayName }}</h2>
 </div>
 <nav>
   <ul>

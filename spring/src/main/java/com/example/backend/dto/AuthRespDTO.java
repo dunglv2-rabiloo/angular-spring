@@ -11,4 +11,6 @@ public class AuthRespDTO {
     private String accessToken;
 
     private String displayName;
+
+    private String avatar;
 }

@@ -1,13 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { NgIconComponent } from '@ng-icons/core';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
+  tablerCamera,
   tablerGraph,
   tablerLogout2,
   tablerPremiumRights,
   tablerWallet,
 } from '@ng-icons/tabler-icons';
-import { AuthService } from '../auth/auth.service';
+import { AuthService, User } from '../auth/auth.service';
 
 interface NavItem {
   icon: string;
@@ -22,12 +23,12 @@ interface NavItem {
   imports: [NgIconComponent, RouterLink, RouterLinkActive],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css',
+  viewProviders: [provideIcons({ tablerCamera })],
 })
 export class NavComponent {
   private router = inject(Router);
-  private authService = inject(AuthService);
 
-  displayName = '';
+  user: User = { displayName: '', avatar: '#' };
   items: NavItem[] = [
     {
       icon: tablerGraph,
@@ -54,7 +55,25 @@ export class NavComponent {
     },
   ];
 
-  constructor(authService: AuthService) {
-    this.displayName = authService.user?.displayName || '';
+  constructor(private authService: AuthService) {
+    this.fetchUserProfiles();
+  }
+
+  async fetchUserProfiles() {
+    this.user = await this.authService.getUserProfiles();
+  }
+
+  changeAvatar() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = async () => {
+      const file = input.files?.[0];
+      if (file) {
+        await this.authService.changeAvatar(file);
+        this.fetchUserProfiles();
+      }
+    };
+    input.click();
   }
 }

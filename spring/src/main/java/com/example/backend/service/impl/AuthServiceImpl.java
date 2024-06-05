@@ -38,6 +38,7 @@ public class AuthServiceImpl implements AuthService {
             return AuthRespDTO.builder()
                 .accessToken(accessToken)
                 .displayName(user.getDisplayName())
+                .avatar(user.getAvatar())
                 .build();
         } catch (BadCredentialsException e) {
             throw new UnauthenticatedException("Bad Credentials", e);
