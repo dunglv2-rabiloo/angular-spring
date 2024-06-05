@@ -12,13 +12,20 @@ interface AuthRespose {
   avatar: string;
 }
 
+const AUTHENTICATED_KEY = 'authenticated';
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  authenticated = false;
   user: User | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    if (localStorage.getItem(AUTHENTICATED_KEY)) {
+      this.authenticated = true;
+    }
+  }
 
   async signIn(username: string, password: string) {
     const resp = await firstValueFrom(
@@ -32,6 +39,10 @@ export class AuthService {
       displayName: resp.displayName,
       avatar: resp.avatar,
     };
+
+    localStorage.setItem(AUTHENTICATED_KEY, 'true');
+    this.authenticated = true;
+    console.log(this.authenticated);
   }
 
   async getUserProfiles() {
@@ -51,5 +62,7 @@ export class AuthService {
   async signOut() {
     await firstValueFrom(this.http.post('/api/auth/logout', {}));
     this.user = null;
+    localStorage.removeItem(AUTHENTICATED_KEY);
+    this.authenticated = false;
   }
 }

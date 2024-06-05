@@ -6,15 +6,21 @@ import { NewExpenseComponent } from './modules/expenses/new-expense/new-expense.
 import { LayoutComponent } from './modules/layout/layout.component';
 import { SigninComponent } from './modules/signin/signin.component';
 import { WalletsComponent } from './modules/wallets/wallets.component';
+import {
+  authenticatedGuard,
+  unauthenticatedGuard,
+} from './authenticated.guard';
 
 export const routes: Routes = [
   {
     path: 'signin',
     component: SigninComponent,
+    canActivate: [unauthenticatedGuard],
   },
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [authenticatedGuard],
     children: [
       {
         path: '',

@@ -5,6 +5,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -29,7 +30,7 @@ public class DefaultExceptionHandler {
         return ApiError.withError(e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).toList().get(0));
     }
 
-    @ExceptionHandler(AccessDeniedException.class)
+    @ExceptionHandler({AccessDeniedException.class, AuthorizationDeniedException.class})
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ApiError<?> handleAccessDenied() {
         return ApiError.withError("{access.forbidden}");
