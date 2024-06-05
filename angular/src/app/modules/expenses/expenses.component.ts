@@ -107,7 +107,7 @@ export class ExpensesComponent implements OnInit {
     }
 
     this.router.navigate([], {
-      queryParams: { ...criteria, ...this.route.snapshot.queryParams },
+      queryParams: { ...this.route.snapshot.queryParams, ...criteria },
     });
     this.filter = criteria;
     await this.fetchExpenses();
