@@ -7,11 +7,14 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../shared/auth/auth.service';
+import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ApiError } from '../../shared/shared.model';
 
 @Component({
   selector: 'app-signin',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, CommonModule],
   templateUrl: './signin.component.html',
   styleUrl: './signin.component.css',
 })
@@ -19,6 +22,7 @@ export class SigninComponent {
   router = inject(Router);
   authService = inject(AuthService);
 
+  error = '';
   submitting = false;
   formGroup = new FormGroup({
     username: new FormControl('', Validators.required),
@@ -38,7 +42,9 @@ export class SigninComponent {
       );
       this.router.navigate(['/']);
     } catch (e) {
-      console.error(e);
+      if (e instanceof HttpErrorResponse) {
+        this.error = (e.error as ApiError).error;
+      }
     } finally {
       this.submitting = false;
     }

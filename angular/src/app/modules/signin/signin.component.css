@@ -4,6 +4,12 @@
   align-items: center;
 }
 
+.error {
+  color: var(--red-300);
+  background-color: var(--red-alpha-300);
+  padding: 1rem;
+}
+
 .form {
   margin-top: 150px;
   padding: 40px;

@@ -24,11 +24,12 @@ import {
   PersistedExpense,
 } from '../../modules/expenses/expenses.service';
 import moment from 'moment';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-expense-form',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIconComponent, RouterModule],
+  imports: [ReactiveFormsModule, NgIconComponent, RouterModule, CommonModule],
   templateUrl: './expense-form.component.html',
   styleUrl: './expense-form.component.css',
   viewProviders: [provideIcons({ tablerChevronLeft })],
@@ -47,6 +48,7 @@ export class ExpenseFormComponent implements OnChanges {
     description: new FormControl(),
   });
   categories: Category[] = [];
+  submittedFirstTime = false;
 
   constructor(private cateService: CategoryService) {
     this.fetchCategories();
@@ -76,6 +78,8 @@ export class ExpenseFormComponent implements OnChanges {
   }
 
   async handleSubmit() {
+    this.submittedFirstTime = true;
+
     if (this.expenseForm.invalid) {
       throw new Error('Invalid form data');
     }

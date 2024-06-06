@@ -1,5 +1,8 @@
 <form class="form" [formGroup]="formGroup" (ngSubmit)="handleSignin()">
   <h2>Sign in</h2>
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
   <div class="field">
     <label for="username">Username</label>
     <input id="username" type="email" formControlName="username" autofocus />

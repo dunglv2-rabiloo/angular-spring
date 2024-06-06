@@ -17,8 +17,6 @@ async function sendRefreshTokenAndGetNewToken(): Promise<any> {
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
 
-  console.log(req.url !== '/api/auth/refresh', req);
-
   if (req.url !== '/api/auth/refresh' && authService.isAccessTokenExpired()) {
     return from(authService.refreshToken()).pipe(switchMap(() => next(req)));
   }

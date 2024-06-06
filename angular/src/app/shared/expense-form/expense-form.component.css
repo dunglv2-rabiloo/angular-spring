@@ -23,3 +23,11 @@
 .expense-form .actions button {
   width: 100%;
 }
+
+.expense-form .field.error input {
+  border-color: var(--red-300);
+}
+.expense-form .error-ctn {
+  color: var(--red-300);
+  padding-top: 1rem;
+}

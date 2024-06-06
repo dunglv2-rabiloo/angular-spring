@@ -9,9 +9,23 @@
   [formGroup]="expenseForm"
   (ngSubmit)="handleSubmit()"
 >
-  <div class="field">
+  <div
+    class="field"
+    [ngClass]="{
+      error:
+        submittedFirstTime && expenseForm.controls.subject.hasError('required')
+    }"
+  >
     <label for="subject">Subject</label>
     <input id="subject" type="text" formControlName="subject" />
+    <div
+      class="error-ctn"
+      *ngIf="
+        submittedFirstTime && expenseForm.controls.subject.hasError('required')
+      "
+    >
+      This field is required
+    </div>
   </div>
   <div class="field half">
     <label for="amount">Amount</label>
