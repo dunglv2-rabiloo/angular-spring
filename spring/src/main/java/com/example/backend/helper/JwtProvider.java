@@ -1,5 +1,6 @@
 package com.example.backend.helper;
 
+import com.example.backend.model.Token;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -8,9 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.util.Date;
 import java.util.Map;
 
@@ -22,15 +21,17 @@ public class JwtProvider {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String generateToken(String subject, Duration lifetime, Map<String, Object> extras) {
+    public Token generateToken(String subject, Duration lifetime, Map<String, String> extras) {
+        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
+        LocalDateTime expiration = now.plus(lifetime);
         JwtBuilder builder =  Jwts.builder()
             .subject(subject)
-            .issuedAt(getDateInstanceFor(LocalDateTime.now()))
-            .expiration(getDateInstanceFor(LocalDateTime.now().plus(lifetime)))
+            .issuedAt(Date.from(now.toInstant(ZoneOffset.UTC)))
+            .expiration(Date.from(expiration.toInstant(ZoneOffset.UTC)))
             .claims(extras)
             .signWith(secretKey);
 
-        return builder.compact();
+        return new Token(builder.compact(), LocalDateTime.from(expiration.minusSeconds(5)));
     }
 
     public Claims verifyToken(String token) {
@@ -39,9 +40,5 @@ public class JwtProvider {
             .build()
             .parseSignedClaims(token)
             .getPayload();
-    }
-
-    private Date getDateInstanceFor(LocalDateTime localDateTime) {
-        return Date.from(localDateTime.toInstant(ZoneOffset.UTC));
     }
 }

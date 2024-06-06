@@ -1,6 +1,7 @@
-package com.example.backend.exception;
+package com.example.backend.controller;
 
 import com.example.backend.dto.ApiError;
+import com.example.backend.exception.ClientVisibleException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -32,14 +33,14 @@ public class DefaultExceptionHandler {
 
     @ExceptionHandler({AccessDeniedException.class, AuthorizationDeniedException.class})
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ApiError<?> handleAccessDenied() {
+    public ApiError<?> handleAccessDenied(Exception e) {
         return ApiError.withError("{access.forbidden}");
     }
 
     @ExceptionHandler(ClientVisibleException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError<?> handleClientVisibleError(ClientVisibleException e) {
-        return ApiError.withError(e.getMessage());
+        return ApiError.withCode(e.getCode()).error(e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)

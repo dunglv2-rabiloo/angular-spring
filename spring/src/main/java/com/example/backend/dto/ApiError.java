@@ -18,7 +18,7 @@ public class ApiError<P> {
         return new ApiError<>(null, message, null);
     }
 
-    public static <P> ApiError<P> code(String code) {
+    public static <P> ApiError<P> withCode(String code) {
         return new ApiError<>(code, null, null);
     }
 

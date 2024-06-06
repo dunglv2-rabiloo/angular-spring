@@ -1,13 +1,13 @@
 package com.example.backend.service.impl;
 
-import com.example.backend.config.SecurityConfig;
-import com.example.backend.dto.AuthRespDTO;
 import com.example.backend.dto.CredentialDTO;
-import com.example.backend.entity.User;
-import com.example.backend.exception.UnauthenticatedException;
+import com.example.backend.exception.AuthenticationException;
 import com.example.backend.helper.JwtProvider;
 import com.example.backend.model.AppUser;
+import com.example.backend.model.AuthResult;
+import com.example.backend.model.Token;
 import com.example.backend.service.AuthService;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+import static com.example.backend.config.SecurityConfig.*;
+import static com.example.backend.constant.ApiCode.BAD_CREDENTIALS;
+
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
@@ -24,7 +27,7 @@ public class AuthServiceImpl implements AuthService {
     private final JwtProvider jwtProvider;
 
     @Override
-    public AuthRespDTO login(CredentialDTO credential) {
+    public AuthResult login(CredentialDTO credential) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -32,26 +35,46 @@ public class AuthServiceImpl implements AuthService {
                     credential.getPassword()
                 )
             );
-            String accessToken = generateAccessToken(authentication);
-            User user = ((AppUser) authentication.getPrincipal()).getUser();
+            AppUser user = (AppUser) authentication.getPrincipal();
+            Token accessToken = generateAccessToken(user.getUsername());
+            Token refreshToken = generateRefreshToken(user.getUsername());
 
-            return AuthRespDTO.builder()
+            return AuthResult.builder()
                 .accessToken(accessToken)
-                .displayName(user.getDisplayName())
-                .avatar(user.getAvatar())
+                .refreshToken(refreshToken)
                 .build();
         } catch (BadCredentialsException e) {
-            throw new UnauthenticatedException("{auth.credentials.incorrect}");
+            throw new AuthenticationException(BAD_CREDENTIALS, "{auth.credentials.incorrect}");
         }
     }
 
-    private String generateAccessToken(Authentication authentication) {
-        AppUser user = (AppUser) authentication.getPrincipal();
+    @Override
+    public AuthResult refresh(String refreshToken) {
+        Claims claims = jwtProvider.verifyToken(refreshToken);
 
+        if (!JWT_TOKEN_TYPE_REFRESH.equals(claims.get(JWT_TOKEN_TYPE_KEY))) {
+            throw new RuntimeException("{jwt.bad_malformed}");
+        }
+
+        return AuthResult.builder()
+            .accessToken(generateAccessToken(claims.getSubject()))
+            .refreshToken(generateRefreshToken(claims.getSubject()))
+            .build();
+    }
+
+    private Token generateAccessToken(String subject) {
         return jwtProvider.generateToken(
-            user.getUsername(),
-            SecurityConfig.ACCESS_TOKEN_LIFETIME,
+            subject,
+            ACCESS_TOKEN_LIFETIME,
             Map.of()
+        );
+    }
+
+    private Token generateRefreshToken(String subject) {
+        return jwtProvider.generateToken(
+            subject,
+            REFRESH_TOKEN_LIFETIME,
+            Map.of(JWT_TOKEN_TYPE_KEY, JWT_TOKEN_TYPE_REFRESH)
         );
     }
 }

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class ExceptionHandlerAspect {
     private final MessageProvider messageProvider;
 
-    @Pointcut("execution(* com.example.backend.exception.DefaultExceptionHandler.handle*(..))")
+    @Pointcut("execution(* com.example.backend.controller.DefaultExceptionHandler.handle*(..))")
     private void exceptionHandlerMethod() {}
 
     @AfterReturning(pointcut = "exceptionHandlerMethod()", returning = "error")
